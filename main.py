@@ -25,9 +25,11 @@ freethrows_missed = 0;
 orob = 0;
 drob = 0;
 
-player = input("Which player do you want to look at? Ex: type (J. Tatum) ");
+gamesPlayed = []
 
-team = input("Which player do you want to look at? Ex: type (BOS) ");
+player = input("Which player do you want to look at? (Ex: S. Curry) ");
+
+team = input("Which player do you want to look at? Ex: type (GSW) ");
 url = f"https://www.basketball-reference.com/teams/{team}/2022_games.html"
 page = requests.get(url).text
 doc = BeautifulSoup(page, "html.parser")
@@ -48,21 +50,27 @@ for b in box_scores:
     start_q_3 = table.find("td", text = "Start of 3rd quarter")
     q_3 = start_q_3.find_all_next("td")
 
+    player_played = False
+
     for row in q_3:
         if (row.text.strip() != "End of 3rd quarter"):
             third_plays.append(row.text.strip())
         else:
             break
 
+        if player in row.text.strip():
+            player_played = True
+        else:
+            continue;
+    
+    gamesPlayed.append(player_played);
+
 # Filter plays by player
-numPlays = 0
 for elem in third_plays:
     if player in elem:
         player_third_plays.append(elem)
-        numPlays += 1
     else:
         continue
-print(numPlays)
 
 # Add to corresponding array   
 # Filter scoring plays
@@ -219,6 +227,7 @@ total_blocks = len(block)
 total_steals = len(steal)
 total_turnovers = len(turnover)
 total_fouls = len(fouls)
+total_games_played = gamesPlayed.count(True)
 
 print(f"Points: {total_points}")
 print()
@@ -257,10 +266,10 @@ print('------------------------------------')
 print('Per reg season game')
 print()
 
-print(f"Points: {total_points / 82}")
+print(f"Points: {total_points / total_games_played}")
 print()
 
-print(f"Assist: {total_assists / 82}")
+print(f"Assist: {total_assists / total_games_played}")
 print()
 
 print(f"2 point percentage: {two_point_percentage}")
@@ -275,20 +284,17 @@ print()
 print(f"FT point percentage: {freethrow_percentage}")
 print()
 
-print(f"Rebounds: {total_rebounds / 82} total, {orob / 82} offensive, {drob / 82} defensive")
+print(f"Rebounds: {total_rebounds / total_games_played} total, {orob / total_games_played} offensive, {drob / total_games_played} defensive")
 print()
 
-print(f"Blocks: {total_blocks / 82}")
+print(f"Blocks: {total_blocks / total_games_played}")
 print()
 
-print(f"Steals: {total_steals / 82}")
+print(f"Steals: {total_steals / total_games_played}")
 print()
 
-print(f"Turnovers: {total_turnovers / 82}")
+print(f"Turnovers: {total_turnovers / total_games_played}")
 print()
 
-print(f"Fouls: {total_fouls / 82}")
+print(f"Fouls: {total_fouls / total_games_played}")
 print()
-
-# Calculate PER
-
