@@ -99,3 +99,6 @@ def getFouls():
 
 def getTotalMinutes():
     return total_games
+
+def getPlayerName():
+    return player;

@@ -1,21 +1,36 @@
 from bs4 import BeautifulSoup
 import requests
-
 def getData(team, player):
     box_scores = []
     third_plays = []
 
     gamesPlayed = []
 
-    url = f"https://www.basketball-reference.com/teams/{team}/2022_games.html"
-    page = requests.get(url).text
-    doc = BeautifulSoup(page, "html.parser")
+    url = ""
 
-    reg_season_table = doc.find("div", {"id": "div_games"})
-    items = reg_season_table.find_all("a", text = "Box Score", href = True)
+    if (team == "BKN" or team == "WSH"):
+        url = f"https://www.basketball-reference.com/teams/{team}/2022/gamelog/"
+        print(url)
+        page = requests.get(url).text
+        doc = BeautifulSoup(page, "html.parser")
+        
+        reg_season_table = doc.find_all("td", class_ = "left")
+        
+        for row in reg_season_table:
+            res = row.find_all("a")
+            if("boxscores" in res[0]['href']):
+                box_scores.append(res[0]['href'])
+            
+    else:
+        url = f"https://www.basketball-reference.com/teams/{team}/2022_games.html"
+        page = requests.get(url).text
+        doc = BeautifulSoup(page, "html.parser")
 
-    for item in items:
-        box_scores.append(item['href'])
+        reg_season_table = doc.find("div", {"id": "div_games"})
+        items = reg_season_table.find_all("a", text = "Box Score", href = True)
+
+        for item in items:
+            box_scores.append(item['href'])
 
     for b in box_scores:
         box_url = f"https://www.basketball-reference.com{b}"
