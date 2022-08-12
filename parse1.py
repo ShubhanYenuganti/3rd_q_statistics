@@ -4,9 +4,9 @@ score = getScorePlays();
 miss = getMissPlays();
 rebound = getRebounds();
 
+# Total 2 points made
 def get2Makes():
     twopoints_made = 0
-    # Total 2 points made
     for elem in score:
         if ("makes 2-pt") in elem:
             twopoints_made += 1
@@ -14,6 +14,7 @@ def get2Makes():
             continue
     return twopoints_made
 
+# Total 2 points missed
 def get2Misses():
     twopoints_missed = 0
     for elem in miss:
@@ -23,8 +24,8 @@ def get2Misses():
             continue
     return twopoints_missed
 
+# Total 3 points made
 def get3Makes():
-    # Total 3 points made
     threepoints_made = 0
     for elem in score:
         if ("makes 3-pt") in elem:
@@ -33,8 +34,8 @@ def get3Makes():
             continue
     return threepoints_made
 
+# Total 3 points missed
 def get3Misses():
-    # Total 3 points missed
     threepoints_missed = 0
     for elem in miss:
         if ("misses 3-pt") in elem:
@@ -44,8 +45,8 @@ def get3Misses():
 
     return threepoints_missed
 
+# Total FT made
 def getFTMakes():
-    # Total FT made
     freethrows_made = 0
     for elem in score:
         if ("makes free throw") in elem:
@@ -60,9 +61,8 @@ def getFTMakes():
         else:
             continue
     return freethrows_made
-
+# Total fts missed
 def getFTMisses():
-    # Total fts missed
     freethrows_missed = 0
     for elem in miss:
         if ("misses free throw") in elem:
@@ -77,19 +77,18 @@ def getFTMisses():
         else:
             continue
     return freethrows_missed
-
+# Total offensive boards
 def getORob():
     orob = 0
-    # Total offensive boards
     for elem in rebound:
         if ("Offensive") in elem:
             orob += 1
         else:
             continue
     return orob
-
+    
+# Total defensive boards
 def getDRob():
-    # Total defensive board
     drob = 0
     for elem in rebound:
         if ("Defensive") in elem:

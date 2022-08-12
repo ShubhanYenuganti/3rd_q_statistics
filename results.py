@@ -1,4 +1,4 @@
-from parse import getPlayerName, getAssists, getBlocks, getSteals, getTurnovers, getFouls, getTotalMinutes
+from parse import getPlayerName, getAssists, getBlocks, getSteals, getTurnovers, getFouls, getGamesPlayed
 from parse1 import get2Makes, get2Misses, get3Makes, get3Misses, getFTMakes, getFTMisses, getDRob, getORob
 
 twopoints_made = get2Makes();
@@ -14,7 +14,12 @@ block = getBlocks()
 steal = getSteals()
 turnover = getTurnovers()
 fouls = getFouls()
-gamesPlayed = getTotalMinutes()
+gamesPlayed = getGamesPlayed()
+
+total_fg_made = twopoints_made + threepoints_made;
+total_fgs = total_fg_made + twopoints_missed + threepoints_missed;
+total_3s_made = threepoints_made;
+total_3s = threepoints_made + threepoints_missed;
 
 total_points = twopoints_made * 2 + threepoints_made * 3 + freethrows_made;
 
@@ -69,5 +74,9 @@ def getAllStats():
         total_blocks / gamesPlayed, 
         total_steals / gamesPlayed, 
         total_turnovers / gamesPlayed, 
-        total_fouls / gamesPlayed
+        total_fouls / gamesPlayed,
+        total_fg_made,
+        total_fgs,
+        total_3s_made,
+        total_3s
         )
